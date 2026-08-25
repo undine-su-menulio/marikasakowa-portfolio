@@ -149,6 +149,79 @@
     .flag-3 { left: 44%; top: 46%; }
     .flag-6 { left: 56%; top: 46%; }
 }
+
+    /* Модальное окно */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+    .modal.active {
+        display: flex;
+    }
+    .modal-content {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+        animation: fadeIn 0.2s ease;
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+    .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+    }
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .modal-body button {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+        transition: background 0.2s;
+        font-size: 16px;
+    }
+    .modal-body button:hover {
+        background: #12a190;
+        color: #ffffff;
+    }
+    .back-btn {
+        margin-top: 8px;
+        background: transparent !important;
+        border: none !important;
+        color: #12a190;
+        text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+
+
     </style>
 </head>
 <body>
@@ -839,7 +912,7 @@
         <div class="flags-overlay">
 
             <!-- Флаг 1: Русский язык -->
-            <a href="/page1.html" class="flag-item flag-1" title="Русский язык">
+            <a href="/page1.html" class="flag-item flag-1" title="Русский язык"  data-lang="ru">
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_236_777)">
 <mask id="mask0_236_777" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
@@ -861,7 +934,7 @@
             </a>
 
             <!-- Флаг 2: Английский язык -->
-            <a href="/page2.html" class="flag-item flag-2" title="Английский язык">
+            <a href="/page2.html" class="flag-item flag-2" title="Английский язык"  data-lang="en">
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_236_793)">
 <mask id="mask0_236_793" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
@@ -883,7 +956,7 @@
             </a>
 
             <!-- Флаг 3: Китайский язык -->
-            <a href="/page3.html" class="flag-item flag-3" title="Китайский язык">
+            <a href="/page3.html" class="flag-item flag-3" title="Китайский язык"  data-lang="zh">
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_236_801)">
 <mask id="mask0_236_801" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
@@ -905,7 +978,7 @@
             </a>
 
             <!-- Флаг 4: Греческий язык -->
-            <a href="/page4.html" class="flag-item flag-4" title="Греческий язык">
+            <a href="/page4.html" class="flag-item flag-4" title="Греческий язык"  data-lang="el">
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_236_770)">
 <mask id="mask0_236_770" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
@@ -925,7 +998,7 @@
             </a>
 
             <!-- Флаг 5: Турецкий язык -->
-            <a href="/page5.html" class="flag-item flag-5" title="Турецкий язык">
+            <a href="/page5.html" class="flag-item flag-5" title="Турецкий язык"  data-lang="tr">
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_236_761)">
 <mask id="mask0_236_761" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
@@ -946,7 +1019,7 @@
             </a>
 
             <!-- Флаг 6: Немецкий язык-->
-            <a href="/page6.html" class="flag-item flag-6" title="Немецкий язык">
+            <a href="/page6.html" class="flag-item flag-6" title="Немецкий язык"  data-lang="de">
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_236_785)">
 <mask id="mask0_236_785" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
@@ -970,6 +1043,18 @@
 
         </div>
         <!-- /flags-overlay -->
+
+    <div class="modal" id="langModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">📚</span>
+                <button class="modal-close" id="closeModal">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Пункты подменю будут вставлены сюда -->
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -1022,6 +1107,137 @@
                 path.style.strokeDashoffset = '0';
             }
         });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('langModal');
+        const modalBody = document.getElementById('modalBody');
+        const closeBtn = document.getElementById('closeModal');
+        const flagItems = document.querySelectorAll('.flag-item');
+
+        // Данные для каждого языка: текст пункта + ссылка, на которую он ведёт.
+        // Порядок пунктов и порядок ссылок должны совпадать (1-й текст = 1-я ссылка и т.д.).
+        // Замените плейсхолдеры ниже на свои реальные URL.
+        const menuData = {
+            ru: {
+                labels: ['Кто я?', 'Исследователь', 'Автор медиа', 'Преподаватель', 'Переводчик'],
+                urls: [
+                    'http://marikasakowa.tilda.ws/datajour-main',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_2',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_3',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_4',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_5'
+                ]
+            },
+            en: {
+                labels: ['Who Am I?', 'Researcher', 'Media Creator', 'Educator', 'Translator'],
+                urls: [
+                    'http://marikasakowa.tilda.ws/PAGE_URL_1',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_2',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_3',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_4',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_5'
+                ]
+            },
+            zh: {
+                labels: ['我是谁？', '学者', '媒体创作者', '教育者', '翻译者'],
+                urls: [
+                    'http://marikasakowa.tilda.ws/PAGE_URL_1',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_2',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_3',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_4',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_5'
+                ]
+            },
+            el: {
+                labels: ['Ποιος είμαι;', 'Ερευνητής', 'Δημιουργός ΜΜΕ', 'Εκπαιδευτής', 'Μεταφραστής'],
+                urls: [
+                    'http://marikasakowa.tilda.ws/PAGE_URL_1',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_2',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_3',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_4',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_5'
+                ]
+            },
+            tr: {
+                labels: ['Kimim?', 'Araştırmacı', 'Medya Yaratıcısı', 'Eğitmen', 'Çevirmen'],
+                urls: [
+                    'http://marikasakowa.tilda.ws/PAGE_URL_1',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_2',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_3',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_4',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_5'
+                ]
+            },
+            de: {
+                labels: ['Wer bin ich?', 'Forscherin', 'Medienschaffende', 'Pädagogin', 'Übersetzerin'],
+                urls: [
+                    'http://marikasakowa.tilda.ws/PAGE_URL_1',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_2',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_3',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_4',
+                    'http://marikasakowa.tilda.ws/PAGE_URL_5'
+                ]
+            }
+        };
+
+
+        // Открыть модалку с подменю для языка
+        function openModal(lang) {
+            const data = menuData[lang] || { labels: [], urls: [] };
+            modalBody.innerHTML = '';
+            data.labels.forEach((text, index) => {
+                const btn = document.createElement('button');
+                btn.textContent = text;
+                const url = data.urls[index];
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (url) {
+                        // Переход на внешнюю страницу в новой вкладке.
+                        // Чтобы открывать в этой же вкладке, замените строку ниже на:
+                        // window.location.href = url;
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                    }
+                });
+                modalBody.appendChild(btn);
+            });
+            // Кнопка "Назад"
+            const backBtn = document.createElement('button');
+            // backBtn.textContent = '← Назад к флагам';
+            backBtn.className = 'back-btn';
+            backBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                modal.classList.remove('active');
+            });
+            modalBody.appendChild(backBtn);
+
+            modal.classList.add('active');
+        }
+
+        // Клик по флагу
+        flagItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lang = this.dataset.lang;
+                if (lang) openModal(lang);
+            });
+        });
+
+        // Закрыть модалку
+        closeBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+        });
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Закрытие по Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') modal.classList.remove('active');
+        });
+    });
+
 </script>
 </body>
 </html>
