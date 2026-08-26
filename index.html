@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maria Kazakova — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Noto+Serif+SC:wght@200..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; }
         html, body {
@@ -17,6 +21,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: 'Comfortaa', 'Noto Serif SC', serif;
         }
         .container {
             position: relative;
@@ -173,6 +178,12 @@
         box-shadow: 0 8px 40px rgba(0,0,0,0.2);
         animation: fadeIn 0.2s ease;
     }
+
+.modal-content,
+.modal-content * {
+    font-family: 'Comfortaa', 'Noto Serif SC', serif;
+}
+
     .modal-header {
         display: flex;
         justify-content: space-between;
@@ -201,7 +212,7 @@
         background: white;
         cursor: pointer;
         transition: background 0.2s;
-        font-size: 16px;
+        font-size: 20px;
     }
     .modal-body button:hover {
         background: #12a190;
@@ -1119,17 +1130,17 @@
         // Замените плейсхолдеры ниже на свои реальные URL.
         const menuData = {
             ru: {
-                labels: ['Кто я?', 'Исследователь', 'Автор медиа', 'Преподаватель', 'Переводчик'],
+                labels: ['Кто я?', 'Исследователь городов и медиа', 'Автор и дизайнер', 'Преподаватель', 'Переводчик'],
                 urls: [
                     'http://marikasakowa.tilda.ws/datajour-main',
-                    'http://marikasakowa.tilda.ws/PAGE_URL_2',
+                    'https://undine-su-menulio.github.io/marikasakowa-portfolio/researcher-ru',
                     'http://marikasakowa.tilda.ws/PAGE_URL_3',
                     'http://marikasakowa.tilda.ws/PAGE_URL_4',
                     'http://marikasakowa.tilda.ws/PAGE_URL_5'
                 ]
             },
             en: {
-                labels: ['Who Am I?', 'Researcher', 'Media Creator', 'Educator', 'Translator'],
+                labels: ['Who Am I?', 'Urban & Media Researcher', 'Author & Designer', 'Educator', 'Translator'],
                 urls: [
                     'http://marikasakowa.tilda.ws/PAGE_URL_1',
                     'http://marikasakowa.tilda.ws/PAGE_URL_2',
@@ -1139,7 +1150,7 @@
                 ]
             },
             zh: {
-                labels: ['我是谁？', '学者', '媒体创作者', '教育者', '翻译者'],
+                labels: ['我是谁？', '城市与媒体研究者', '作者与设计师', '教育者', '翻译者'],
                 urls: [
                     'http://marikasakowa.tilda.ws/PAGE_URL_1',
                     'http://marikasakowa.tilda.ws/PAGE_URL_2',
@@ -1149,7 +1160,7 @@
                 ]
             },
             el: {
-                labels: ['Ποιος είμαι;', 'Ερευνητής', 'Δημιουργός ΜΜΕ', 'Εκπαιδευτής', 'Μεταφραστής'],
+                labels: ['Ποιος είμαι;', 'Ερευνήτρια Πόλεων & ΜΜΕ', 'Δημοσιογράφος & Σχεδιάστρια', 'Εκπαιδεύτρια', 'Μεταφράστρια'],
                 urls: [
                     'http://marikasakowa.tilda.ws/PAGE_URL_1',
                     'http://marikasakowa.tilda.ws/PAGE_URL_2',
@@ -1159,7 +1170,7 @@
                 ]
             },
             tr: {
-                labels: ['Kimim?', 'Araştırmacı', 'Medya Yaratıcısı', 'Eğitmen', 'Çevirmen'],
+                labels: ['Kimim?', 'Şehir ve Medya Araştırmacısı', 'Yazar & Tasarımcı', 'Eğitmen', 'Çevirmen'],
                 urls: [
                     'http://marikasakowa.tilda.ws/PAGE_URL_1',
                     'http://marikasakowa.tilda.ws/PAGE_URL_2',
@@ -1169,7 +1180,7 @@
                 ]
             },
             de: {
-                labels: ['Wer bin ich?', 'Forscherin', 'Medienschaffende', 'Pädagogin', 'Übersetzerin'],
+                labels: ['Wer bin ich?', 'Stadt- & Medienforscherin', 'Autorin & Designerin', 'Pädagogin', 'Übersetzerin'],
                 urls: [
                     'http://marikasakowa.tilda.ws/PAGE_URL_1',
                     'http://marikasakowa.tilda.ws/PAGE_URL_2',
