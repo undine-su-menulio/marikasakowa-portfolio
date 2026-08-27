@@ -934,6 +934,61 @@
     }
   }
 
+/* Кнопка закрытия */
+.modal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  border: none;
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 300;
+  cursor: pointer;
+  z-index: 25;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, transform 0.2s, border-color 0.3s;
+  line-height: 1;
+  padding: 0;
+  user-select: none;
+}
+
+.modal-close:hover {
+  background: rgba(18, 161, 144, 0.7);
+  transform: scale(1.1);
+}
+
+.modal-close:active {
+  transform: scale(0.92);
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 600px) {
+  .modal-close {
+    top: 0.6rem;
+    right: 0.5rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .modal-close {
+    top: 0.4rem;
+    right: 0.5rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+}
+
     </style>
 </head>
 
@@ -1142,7 +1197,7 @@
             <h1>Исследователь городов&nbsp;и&nbsp;медиа</h1>
             <p class="hero-sub">
                 Преподаватель, дата-журналист, урбанист. <br>
-                Исследую города через данные, медиа и визуализацию
+                Исследую города через данные, медиа и&nbsp;визуализацию
             </p>
         </header>
 
@@ -1187,7 +1242,7 @@
         <!--  SECTION: Научные публикации                                   -->
         <!-- ============================================================ -->
         <section id="publications" class="section-card">
-            <h2>Научные публикации о городах и медиа</h2>
+            <h2>Научные публикации о городах и&nbsp;медиа</h2>
 
             <!-- Публикация 1 -->
             <div class="pub-item">
@@ -1343,7 +1398,7 @@
         <!--  SECTION: Альманахи                                            -->
         <!-- ============================================================ -->
         <section id="almanacs" class="section-card">
-            <h2>Альманахи с обзорами транспортных кейсов и теорий</h2>
+            <h2>Альманахи с обзорами транспортных кейсов и&nbsp;теорий</h2>
 
             <p>
                 «Городская аналитика» — это внутреннее корпоративное медиа Транспортного комплекса Москвы, которое помогало экспертам узнавать об интересных транспортных кейсах, теориях и исследованиях. Я была одним из трёх постоянных авторов издания и помогла увеличить число подписчиков в 3 раза всего за 1 год.
@@ -1438,6 +1493,8 @@
     </div>
   </div>
 </section>
+
+
             <!-- Блок 2: медиа -->
             <div class="talk-section">
                 <h3>Выступления о медиа</h3>
@@ -1519,6 +1576,7 @@
 
 <!-- ===== ЕДИНОЕ МОДАЛЬНОЕ ОКНО (в конце) ===== -->
 <div id="photo-modal" class="modal-overlay">
+  <button class="modal-close" onclick="closeModal(); event.stopPropagation();" aria-label="Закрыть">&times;</button>
   <button class="modal-nav modal-prev" onclick="event.stopPropagation(); prevImage();">‹</button>
   <div class="modal-image-wrapper" id="modal-image-wrapper">
     <img id="modal-img" src="" alt="Увеличенное фото" draggable="false" />
@@ -1754,6 +1812,7 @@
   // Инициализация счётчика
   updateCounter();
 
+
   // Плавная прокрутка для всех якорных ссылок в меню
   document.querySelectorAll('.anchor-menu a[href^="#"]').forEach(link => {
     link.addEventListener('click', function(e) {
@@ -1771,7 +1830,7 @@
       }
     });
   });
-    
+
 </script>
 
 </body>
