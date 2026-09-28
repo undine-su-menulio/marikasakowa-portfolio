@@ -854,6 +854,107 @@
         }
 
         iframe[src=""] { display: none; }
+
+/* ══════════════════════════════════════════════════════════════
+   Галереи: мобильные правки и специальные случаи
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Планшеты и мобильные (≤768px) ── */
+@media (max-width: 768px) {
+    /* Квадратные подложки — настоящие квадраты */
+    .gallery-item.placeholder.square,
+    .gallery-item.placeholder.foursquare {
+        aspect-ratio: 1 / 1;
+        min-height: 0;
+        max-height: none;
+        height: auto;
+        display: block;
+        position: relative;
+        padding: 1rem;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+    .gallery-item.square,
+    .gallery-item.foursquare { max-height: none; }
+
+    .gallery-item.placeholder.square img,
+    .gallery-item.placeholder.foursquare img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Горизонтальные подложки — высота по пропорции содержимого */
+    .gallery-item.placeholder.horizontal {
+        aspect-ratio: auto;
+        min-height: 0;
+        max-height: none;
+        height: auto;
+        overflow: hidden;
+    }
+    .gallery-item.placeholder.horizontal img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        display: block;
+    }
+    .gallery-item.placeholder.horizontal iframe {
+        min-height: 0;
+        height: auto;
+    }
+}
+
+/* ── Мобильные (≤600px) ── */
+@media (max-width: 600px) {
+    /* Видео-сетка — строго одна колонка (важно: перебивает правило 480px) */
+    .gallery-grid.gallery-grid--video { grid-template-columns: 1fr; }
+
+    /* Горизонтальные видео — на всю ширину ряда */
+    .gallery-item.placeholder.horizontal { grid-column: 1 / -1; }
+
+    /* Одинокий элемент в сетке — на всю ширину */
+    .gallery-grid:has(> .gallery-item:only-child) { grid-template-columns: 1fr; }
+
+    /* Квадратный iframe заполняет подложку */
+    .gallery-item.placeholder.square iframe,
+    .gallery-item.placeholder.foursquare iframe {
+        width: 100% !important;
+        height: 100% !important;
+        aspect-ratio: auto !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        display: block;
+        border: none;
+        border-radius: var(--radius-sm);
+    }
+}
+
+/* ── Специальные случаи: одиночный элемент в сетке ── */
+
+/* Одиночное горизонтальное видео — не сжимать по высоте */
+.gallery-grid > .gallery-item.placeholder.horizontal:only-child:has(iframe) {
+    max-height: none;
+    overflow: visible;
+}
+.gallery-grid > .gallery-item.placeholder.horizontal:only-child:has(iframe) iframe {
+    height: auto;
+    min-height: 0;
+}
+
+/* Одиночный горизонтальный постер — воздух сверху/снизу и не обрезать */
+.gallery-grid > .gallery-item.placeholder.horizontal:only-child:has(img) {
+    max-height: none;
+    overflow: visible;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.gallery-grid > .gallery-item.placeholder.horizontal:only-child:has(img) img {
+    height: auto;
+    max-width: 100%;
+    display: block;
+}
+
     </style>
 </head>
 
@@ -1354,8 +1455,8 @@
 
             <!-- Галерея: 2 квадратных видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">квадратное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/UU6ibVnTnDh" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/sWGI45Ktz9w" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1394,8 +1495,8 @@
 
             <!-- Галерея: 2 видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">горизонтальное</div></div>
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">горизонтальное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/SJyAgKSDW9z" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/NVJM30HOJoS" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1422,9 +1523,9 @@
 
             <!-- Галерея: 3 вертикальных видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 3</div><div class="ph-format">вертикальное</div></div>
+                <div class="gallery-item placeholder vertical"><iframe src="https://nuno.ru/embed/VOPAgvNqIGv" width="100%" style="aspect-ratio:9/16;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder vertical"><iframe src="https://nuno.ru/embed/nn1t3zxxrPd" width="100%" style="aspect-ratio:9/16;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder vertical"><iframe src="https://nuno.ru/embed/voPk82APlBl" width="100%" style="aspect-ratio:9/16;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
         </section>
 
@@ -1459,10 +1560,10 @@
 
             <!-- Галерея: 4 квадратных видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 3</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 4</div><div class="ph-format">квадратное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/F7mfLqWgZaX" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/pbRReIjDkh5" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/55fgQcmLJv0" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/RVcYON0Hv10" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1471,8 +1572,8 @@
 
             <!-- Галерея: 2 квадратных видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">квадратное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/lzLTqWdtRU4" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/Ojn2rqXhWci" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1559,7 +1660,7 @@
 
             <!-- Одно горизонтальное видео -->
             <div class="gallery-grid">
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео</div><div class="ph-format">горизонтальное</div></div>
+                <div class="gallery-item placeholder horizontal"><iframe src="https://nuno.ru/embed/IYQ9v5Q0VhH" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1584,15 +1685,15 @@
 
             <!-- Галерея: 9 разноформатных видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 3</div><div class="ph-format">горизонтальное</div></div>
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 4</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 5</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 6</div><div class="ph-format">горизонтальное</div></div>
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 7</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 8</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 9</div><div class="ph-format">горизонтальное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/Gkgm2UO6SFJ" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/BHeEzb2YzOu" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/W9lTWG16IOE" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/Fej7rPFkeAl" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/Y3ysTLa9WEJ" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/dpXoLfXPcAg" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/42rVM7m0ryN" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder horizontal"><iframe src="https://nuno.ru/embed/kPD7IrgTUCR" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>                
+                
             </div>
 
             <p class="mt-2">
@@ -1601,13 +1702,13 @@
 
             <!-- Галерея: 7 разноформатных видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 3</div><div class="ph-format">горизонтальное</div></div>
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 4</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 5</div><div class="ph-format">квадратное</div></div>
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 6</div><div class="ph-format">горизонтальное</div></div>
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 7</div><div class="ph-format">вертикальное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/C4SuXiQzi8F" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/OZlwpmQR1Cp" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/CgnoPYaQY9P" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/polLYyoJftj" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/zAnjNOrl6lQ" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/LoK8qFijphV" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder vertical"><iframe src="https://nuno.ru/embed/OvEQ21O5Ygn" width="100%" style="aspect-ratio:9/16;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1615,9 +1716,9 @@
             </p>
 
             <!-- Галерея: 2 квадратных видео -->
-            <div class="gallery-grid">
-                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/LYGVvNaozh3" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
-                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/WPVk2aDxyYw" class="big" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+            <div class="gallery-grid gallery-grid--video">
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/LYGVvNaozh3" width="100%" style="aspect-ratio:1/1;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/WPVk2aDxyYw" class="big" width="100%" style="aspect-ratio:1/1;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1626,7 +1727,7 @@
 
             <!-- Одно квадратное видео -->
             <div class="gallery-grid">
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео</div><div class="ph-format">квадратное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/ozlvZ88DPQR" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">Особенно важные видеопроекты я создавала в паре с моушен-дизайнерами.</p>
@@ -1636,7 +1737,7 @@
 
             <!-- Одно горизонтальное видео -->
             <div class="gallery-grid">
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео</div><div class="ph-format">горизонтальное</div></div>
+                <div class="gallery-item placeholder horizontal"><iframe src="https://nuno.ru/embed/Cgj02kVOrZu" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
 
             <p class="mt-2">
@@ -1645,8 +1746,8 @@
 
             <!-- Галерея: 2 видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">горизонтальное</div></div>
-                <div class="gallery-item placeholder horizontal"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">горизонтальное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/sf3STBN0FOb" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/q1tVgkUr1t7" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
         </section>
 
@@ -1678,8 +1779,8 @@
 
             <!-- Галерея: 2 разноформатных видео -->
             <div class="gallery-grid gallery-grid--video">
-                <div class="gallery-item placeholder vertical"><div class="ph-icon">▶</div><div class="ph-label">Видео 1</div><div class="ph-format">вертикальное</div></div>
-                <div class="gallery-item placeholder square"><div class="ph-icon">▶</div><div class="ph-label">Видео 2</div><div class="ph-format">квадратное</div></div>
+                <div class="gallery-item placeholder square"><iframe src="https://nuno.ru/embed/x2GoB9m5r6X" width="100%" style="aspect-ratio:16/9;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
+                <div class="gallery-item placeholder vertical"><iframe src="https://nuno.ru/embed/SiEBdm4DyYj" width="100%" style="aspect-ratio:9/16;max-width:100%" frameborder="0" allowfullscreen allow="autoplay; fullscreen; clipboard-write" referrerpolicy="strict-origin"></iframe></div>
             </div>
         </section>
 
@@ -1793,11 +1894,7 @@
             <!-- PDF предпросмотр из Google Drive -->
             <div class="pub-iframe-wrap mt-2">
                 <!-- Вставьте сюда iframe с предпросмотром PDF из Google Drive -->
-                <div class="gallery-item placeholder horizontal" style="border:none; border-radius:0; box-shadow:none;">
-                    <div class="ph-icon">📄</div>
-                    <div class="ph-label">PDF-предпросмотр</div>
-                    <div class="ph-format">Google Drive</div>
-                </div>
+                    <iframe src="https://drive.google.com/file/d/1RRwb16gEcMu2bRtCczLUm-MELvR24Uy7/preview" width="640" height="480"></iframe>
             </div>
         </section>
 
@@ -1813,26 +1910,28 @@
 
             <!-- Галерея: 20 разноформатных -->
             <div class="gallery-grid">
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 1" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 2" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 3" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 4" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 5" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 6" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 7" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 8" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 9" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 10" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 11" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 12" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 13" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 14" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 15" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 16" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 17" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 18" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 19" loading="lazy" /></div>
-                <div class="gallery-item placeholder foursquare"><img src="https://...ваша-картинка.jpg" alt="Фото 20" loading="lazy" /></div>            </div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-25.vkuserphoto.ru/s/v1/ig2/2PX-PD_Fp9tOmHosyDFL9YPrxgpKFw6cE7nBw31yYoKvrm0oykcTuPh9p55t8PaObF2y_GYk7EQA6qfUh5i0LVbT.jpg?quality=95&as=32x21,48x32,72x48,108x72,160x106,240x160,360x239,480x319,540x359,640x426,720x479,1080x718,1146x762&from=bu&cs=1146x0" alt="Фото 1" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-71.vkuserphoto.ru/s/v1/ig2/4l1c1xCU3sOcW0y-8Md6neq8_EZeEdXpYo1ojzZeuCvzkf8MB56yxY1TyG4dKxfq2uSe7oVqk_r0srbTBR1W_T0-.jpg?quality=95&as=32x22,48x33,72x49,108x74,160x110,240x165,360x247,480x329,540x371,640x439,720x494,1080x741,1147x787&from=bu&cs=1147x0" alt="Фото 2" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-52.vkuserphoto.ru/s/v1/ig2/Nk7CwMQGHWDtfE_M_Ol5G-Rm4APQ5xvIKDkf8I_KdPs0NMdopSui22JQ_eef-5ORUgbSQdEbOkDGVVPb65Zytl7K.jpg?quality=95&as=32x22,48x33,72x50,108x75,160x111,240x167,360x251,480x334,540x376,640x446,720x501,1080x752,1280x891,1440x1003,1838x1280&from=bu&cs=1280x0" alt="Фото 3" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-5.vkuserphoto.ru/s/v1/ig2/zIgF11Hu84bOmRBXv3wjFFWf1LgAmVhfchDq8vUAtEfPTU8UGJNHNu6VyRzTG3whtB1YhukvX0gcEQqyKH-1h_MG.jpg?quality=95&as=32x22,48x32,72x48,108x73,160x108,240x161,360x242,480x323,540x363,640x431,720x484,1080x727,1152x775&from=bu&cs=1152x0" alt="Фото 4" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-7.vkuserphoto.ru/s/v1/ig2/jkT_e3EniMT-Y7b3oh0PCeZWL6UTzrDYgmyu569eSAbUATRJUnmM1FxZyeoQ9kBQVrQeOmJOgJ160cZna-icbwlF.jpg?quality=95&as=32x44,48x66,72x98,108x148,160x219,240x328,360x492,480x656,540x738,640x874,720x984,937x1280&from=bu&cs=937x0" alt="Фото 5" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-47.vkuserphoto.ru/s/v1/ig2/eLVf91g1QX-EJuOWazFU2rXWH9bcKCpzIKyQBIZUIAIi7ReU1_KRRLUFp5nVShQJNqtOr9Q4Kpr5dfiMAsWAOZS5.jpg?quality=95&as=32x45,48x68,72x102,108x153,160x226,240x340,360x509,480x679,518x733&from=bu&cs=518x0" alt="Фото 6" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-37.vkuserphoto.ru/s/v1/ig2/SbXdgCepiuaLNKubzV4HzqGgoBhwrJfgBk_rw49-VRp8zb2onjgJxTNtXW5c5tE20jQJtve9sO6ZdZB26FTo0qnR.jpg?quality=95&as=32x44,48x67,72x100,108x150,160x222,240x333,360x500,480x666,534x741&from=bu&cs=534x0" alt="Фото 7" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-69.vkuserphoto.ru/s/v1/ig2/HJFKe2jIFu7J9M3WdOLqofiIX19K-Ch7Zci3AZdmBwGwiVfmG7wmCIDX7LKH36wCtB25wcFfdU8zR3QYARxQryh7.jpg?quality=95&as=32x42,48x64,72x95,108x143,160x212,240x318,360x477,480x636,540x716,566x750&from=bu&cs=566x0" alt="Фото 8" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-61.vkuserphoto.ru/s/v1/ig2/vL4XDTuBKK_EFxcvFTy3OgKU2Ug4HCXfi5oM1YT8siXqbIvpKFxaZk68-bENeKqRfmK3BvjDV4L__wVOmx_F3yGG.jpg?quality=95&as=32x44,48x66,72x99,108x148,160x220,240x330,360x495,480x660,540x742,542x745&from=bu&cs=542x0" alt="Фото 9" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-63.vkuserphoto.ru/s/v1/ig2/GQO7CljmsN8xzPHj3vDEOxA3AFuHGRLJDJWmyR9u04xFmmfcTDs732f4S1mrYhN_i7-3aD7hatPuT9xK-9pcr3ui.jpg?quality=95&as=32x21,48x31,72x47,108x71,160x105,240x157,360x236,480x315,540x354,640x420,720x472,1080x708,1151x755&from=bu&cs=1151x0" alt="Фото 10" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-46.vkuserphoto.ru/s/v1/ig2/O8wcZ5BBdQyTUPF6FgBKYmbp0QENxmzeEg8eaogz6EgNt3Uu-UpSnYiUW080lh9-PRp9VBkMzNzzH7WCE2q52k4L.jpg?quality=95&as=32x21,48x31,72x47,108x70,160x104,240x156,360x234,480x312,540x351,640x416,720x468,1080x702,1150x748&from=bu&cs=1150x0" alt="Фото 11" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-50.vkuserphoto.ru/s/v1/ig2/PrZKDGirD62GUUpK2A_QrlhAfsg4sarRr8QTl8NM9X6sbASxysNChskCrRD0lRrjcFttNCIbc_lfv7wQNrDs2MaS.jpg?quality=95&as=32x21,48x31,72x46,108x70,160x103,240x155,360x232,480x310,540x348,640x413,720x465,1080x697,1136x733&from=bu&cs=1136x0" alt="Фото 12" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-16.vkuserphoto.ru/s/v1/ig2/ZcFTvEDpRUEJvX3SUCmwK0YazbTMRT6p8vmIivrtWbAr_DhAg18g9MwaSOlJszCX2-jUFABBAGn6A6v2lBgzBmg2.jpg?quality=95&as=32x22,48x32,72x48,108x73,160x108,240x161,360x242,480x323,540x363,640x430,720x484,1080x726,1151x774&from=bu&cs=1151x0" alt="Фото 13" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-13.vkuserphoto.ru/s/v1/ig2/njcwsi3w99nm2Pd-VfnKxq3Hn6Ifb26BsDHdY8V3L5fqoeEoF1LetHO-b2ljLAcqQyuyn3RnZZU5onaWReBrK6re.jpg?quality=95&as=32x22,48x33,72x50,108x74,160x110,240x165,360x248,480x330,540x371,640x440,720x495,1080x743,1140x784&from=bu&cs=1140x0" alt="Фото 14" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-79.vkuserphoto.ru/s/v1/ig2/7-PBQPSEOR1JBasv0hg06DpEGotLdZQFAUgizWktzXSyiHoe5H_9WvzIyaWNTxMbMp5857Y33pv0RRrV4PRKYpwo.jpg?quality=95&as=32x21,48x32,72x47,108x71,160x105,240x158,360x236,480x315,540x354,640x420,720x473,1080x709,1144x751&from=bu&u=_DZ5j4LtwfJPl7rFVN0Uazd_KOu0fPctXDSL-D0f8JA&cs=1144x0" alt="Фото 15" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-34.vkuserphoto.ru/s/v1/ig2/auNSOqCGL6oImb0NGWyx8gWDPsITd-gUBrwZr3MFmjmuXMZ2BGTJe5z_Iqxi0HXCHnSrv47SPAESQsTq_VeCpXmY.jpg?quality=95&as=32x44,48x65,72x98,108x147,160x218,240x327,360x490,480x654,540x735,542x738&from=bu&cs=542x0" alt="Фото 16" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-6.vkuserphoto.ru/s/v1/ig2/hPQQjll3Nx3YQJmlZImEnBx5_qZmZcidCfcYdWD3-7FHXGukT9BLX1GtcsQROLrAenWbtk02MiSQhBthVDr3-cOt.jpg?quality=95&as=32x21,48x32,72x48,108x71,160x106,240x159,360x238,480x317,540x357,640x423,720x476,1080x714,1162x768&from=bu&cs=1162x0" alt="Фото 17" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-4.vkuserphoto.ru/s/v1/ig2/gTexA1b2sFkXmWxRJahmHp1j1p40-z_2PF1bOgYV9dDa036FUsCAIDjbiOmsdKVLa7MLt7rLep8m_SYLbPIpvzat.jpg?quality=95&as=32x21,48x31,72x47,108x71,160x105,240x157,360x235,480x314,540x353,640x418,720x470,1080x706,1145x748&from=bu&cs=1145x0" alt="Фото 18" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-29.vkuserphoto.ru/s/v1/ig2/x_KU7XDO2KR-w-59C3ELvPDNCNhMdT-qjsT9J20WuvgMMyqss4yTJqQkUHOccLJGkje-jffQvJ2HHl29wylA0xhy.jpg?quality=95&as=32x21,48x32,72x48,108x71,160x106,240x159,360x238,480x317,540x357,640x423,720x476,1080x714,1193x789&from=bu&u=xx2IPp8eyeCnMO6mlj_Aw-vfva1YtDpydfONKBx8dNg&cs=1193x0" alt="Фото 17" loading="lazy" /></div>
+                <div class="gallery-item placeholder foursquare"><img src="https://sun9-77.vkuserphoto.ru/s/v1/ig2/NEzNqPcVCvMSjHdgOA7ZnEKuQJitU8xe39CmEzSvkRkRhxpuf6HrIkHGT27L45HSdCeQrIAvul8Gk7DKAaf4SCNx.jpg?quality=95&as=32x21,48x32,72x47,108x71,160x105,240x158,360x237,480x316,540x355,640x421,720x474,1080x711,1194x786&from=bu&cs=1194x0" alt="Фото 18" loading="lazy" /></div>
+
+           </div>
         </section>
 
         <!-- ===== FOOTER ===== -->
