@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12a190">
+  <title>Этический компас · ИИ и ваш выбор</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --milk:#f5f3f0; --paper:#ffffff; --ink:#193e40; --muted:#59716f; --teal:#12a190; --dark:#12a190; --teal-text:#193e40; --wash:#e0f2ef; --line:#e0f2ef; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none !important; }
+    body { margin:0; background:var(--milk); color:var(--ink); font:14px/1.65 'Comfortaa',sans-serif; }
+    button,input { font:inherit; }
+    button { cursor:pointer; }
+    button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible + .option-content { outline:3px solid var(--teal-text); outline-offset:3px; }
+    .shell { max-width:1180px; padding:0 30px; margin:auto; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:17px 0; border-bottom:1px solid var(--line); }
+    .brand { display:flex; align-items:center; gap:10px; font-weight:700; color:var(--ink); text-decoration:none; }
+    .mark { width:30px; height:30px; display:grid; place-items:center; border-radius:50%; background:var(--teal); color:#082e2a; font:23px sans-serif; }
+    .muted,.small { color:var(--muted); } .small { font-size:12px; }
+    main { padding:32px 0; }
+    .eyebrow { margin:0 0 12px; color:var(--teal-text); font-size:10px; font-weight:700; letter-spacing:1.7px; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { font-size:clamp(30px,4.4vw,52px); line-height:1.2; letter-spacing:-1.7px; margin-bottom:20px; }
+    h2 { font-size:clamp(22px,2.5vw,30px); line-height:1.35; letter-spacing:-.7px; margin-bottom:18px; }
+    h3 { font-size:17px; line-height:1.5; }
+    .lead { font-size:16px; color:var(--muted); max-width:700px; }
+    .intro-grid { display:grid; grid-template-columns:1.5fr 1fr; gap:56px; padding:28px 0 10px; align-items:center; }
+    .compass { width:220px; height:220px; border:1px solid var(--teal); border-radius:50%; margin:auto; position:relative; background:radial-gradient(circle,var(--wash),transparent 72%); }
+    .compass::before { content:''; position:absolute; inset:26px; border:1px dashed var(--teal); border-radius:50%; }
+    .compass::after { content:''; position:absolute; inset:40px 85px; background:linear-gradient(var(--teal) 50%,var(--wash) 50%); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); transform:rotate(35deg); }
+    .caption { text-align:center; color:var(--muted); margin:20px 0 0; font-size:12px; }
+    .pills { display:flex; gap:8px; flex-wrap:wrap; margin:24px 0; }
+    .pill { border:1px solid var(--line); border-radius:30px; padding:5px 11px; font-size:11px; color:var(--muted); }
+    .button { padding:11px 19px; border:1px solid transparent; border-radius:11px; background:var(--teal); color:#ffffff; font-weight:700; font-size:12px; min-height:42px; transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease; }
+    .button:hover { background:var(--dark); }
+    .button.secondary { background:transparent; color:var(--ink); border-color:var(--line); }
+    .button.secondary:hover { background:var(--wash); }
+    .button:disabled { opacity:.4; cursor:not-allowed; }
+    @media (hover:hover) { .button:not(.secondary):not(:disabled):hover { transform:scale(1.035); box-shadow:0 5px 20px rgba(18,161,144,.28),0 0 12px rgba(18,161,144,.16); } }
+    .notice { border:1px solid var(--line); border-radius:16px; padding:20px 24px; color:var(--muted); font-size:12px; margin-top:26px; }
+    .notice p:last-child { margin-bottom:0; }
+    .progress-top { display:flex; justify-content:space-between; gap:12px; font-size:11px; color:var(--muted); margin-bottom:8px; }
+    progress { width:100%; display:block; height:5px; border:0; border-radius:10px; overflow:hidden; background:var(--line); accent-color:var(--teal); }
+    progress::-webkit-progress-bar { background:var(--line); } progress::-webkit-progress-value { background:var(--teal); } progress::-moz-progress-bar { background:var(--teal); }
+    .question-card { margin-top:20px; border:1px solid var(--line); border-radius:22px; background:var(--paper); padding:26px; }
+    .question-layout { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.4fr); gap:32px; }
+    .scenario { font-size:14px; line-height:1.8; margin-bottom:0; }
+    fieldset { min-width:0; padding:0; margin:0; border:0; }
+    legend { font-size:12px; font-weight:700; margin-bottom:12px; }
+    .options { display:grid; gap:9px; }
+    .option { display:block; position:relative; cursor:pointer; }
+    .option input { position:absolute; width:1px; height:1px; opacity:0; }
+    .option-content { display:flex; align-items:flex-start; gap:11px; padding:12px 14px; border:1px solid var(--line); border-radius:11px; font-size:12px; line-height:1.65; }
+    .option:hover .option-content { background:var(--wash); }
+    .option input:checked + .option-content { background:var(--wash); border-color:var(--teal); box-shadow:inset 0 0 0 1px var(--teal); }
+    .dot { flex:none; width:16px; height:16px; border:1px solid #91a9a2; border-radius:50%; margin-top:2px; background:var(--paper); }
+    input:checked + .option-content .dot { border:5px solid var(--teal); }
+    .extra-options { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:12px; }
+    .extra-options .option-content { font-size:11px; padding:10px 12px; }
+    .navigation { display:flex; align-items:center; justify-content:space-between; gap:16px; border-top:1px solid var(--line); margin-top:20px; padding-top:16px; }
+    .selection-hint { margin:0; font-size:10px; color:var(--muted); text-align:center; }
+    .result-grid { display:grid; grid-template-columns:1.5fr 1fr; gap:22px; align-items:start; margin:26px 0; }
+    .panel { background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:24px; }
+    canvas { width:100%; height:auto; display:block; border-radius:12px; }
+    .score-list { list-style:none; margin:16px 0 0; padding:0; font-size:12px; }
+    .score-list li { display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px solid var(--line); }
+    .exports { display:flex; flex-wrap:wrap; gap:9px; margin:18px 0 12px; }
+    details { border-top:1px solid var(--line); margin-top:22px; padding-top:18px; }
+    summary { cursor:pointer; font-weight:700; font-size:12px; }
+    #methodology { padding-top:20px; }
+    .review-item { padding:14px 0; border-bottom:1px solid var(--line); }
+    .review-item p { margin:5px 0 0; }
+    footer { display:flex; flex-direction:column; gap:12px; border-top:1px solid var(--line); padding:17px 0; font-size:10px; color:var(--muted); }
+    .footer-meta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px 18px; }
+    .contacts { display:flex; align-items:baseline; flex-wrap:wrap; gap:6px 18px; font-size:12px; font-style:normal; }
+    .contacts strong { color:var(--ink); font-weight:700; }
+    .contacts a { color:var(--teal); text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere; }
+    .contacts a:hover { color:var(--ink); }
+    body.testing main { padding-top:20px; padding-bottom:20px; }
+    @media (min-width:850px) and (max-height:760px) { body.testing header { padding:10px 0; } body.testing main { padding:12px 0; } .question-card { margin-top:14px; padding:20px; } .question-layout { gap:26px; } .option-content { padding:9px 12px; } .options { gap:7px; } .extra-options { margin-top:9px; } .navigation { margin-top:14px; padding-top:12px; } body.testing footer { padding:10px 0; } }
+    @media (max-width:849px) { .shell { padding:0 20px; } .question-layout { grid-template-columns:1fr; gap:22px; } .scenario { font-size:14px; } .option-content { font-size:13px; } .result-grid { grid-template-columns:1fr; } .selection-hint { display:none; } .intro-grid { grid-template-columns:1fr; } .intro-art { display:none; } }
+    @media (max-width:480px) { .header-note { display:none; } .shell { padding:0 15px; } .question-card { padding:20px 15px; } .extra-options { grid-template-columns:1fr; } h1 { letter-spacing:-1px; } footer { flex-direction:column; gap:4px; } .panel { padding:18px; } }
+    @media print { header,footer,.exports,#restart { display:none; } body { background:white; } .result-grid { grid-template-columns:1fr; } }
+    @media (prefers-reduced-motion:reduce) { .button { transition:none; } .button:not(.secondary):not(:disabled):hover { transform:none; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header><a class="brand" id="home" href="#intro" aria-label="Этический компас — на главную"><span class="mark" aria-hidden="true">↗</span> Этический компас</a><span class="header-note small">Человек. Технологии. Выбор.</span></header>
+    <main>
+      <section id="intro" aria-labelledby="intro-title">
+        <div class="intro-grid"><div><p class="eyebrow">10 ситуаций об искусственном интеллекте</p><h1 id="intro-title" tabindex="-1">Где проходит<br>ваша граница?</h1><p class="lead">Кино, отношения, творчество и работа. Какую роль вы готовы отдать ИИ — и что хотите оставить человеку?</p><div class="pills"><span class="pill">Около 5–7 минут</span><span class="pill">Нет правильных ответов</span><span class="pill">Можно пропускать</span></div><button type="button" class="button" id="start">Начать исследование ↗</button></div><div class="intro-art" aria-hidden="true"><div class="compass"></div><p class="caption">Не оценка личности.<br>Карта ваших решений.</p></div></div>
+        <div class="notice"><p><strong>Как отвечать.</strong> В каждой истории выберите одну позицию, наиболее близкую к вашей. Ориентируйтесь на описанные условия, даже если не полностью согласны с вариантом. Участие добровольное, можно выбрать затруднение или пропуск.</p><p><strong>Ваши данные.</strong> Ответы остаются в памяти вкладки и исчезнут при перезагрузке или закрытии. На сервер они не отправляются. После прохождения можно сохранить ответы в CSV / XLSX и график в PNG. Шрифт Comfortaa загружается из Google Fonts; при отсутствии сети используется резервный шрифт.</p><p>Это пилотный виньеточный опрос для обсуждения, а не валидированная диагностика личности. Время прохождения ориентировочное.</p></div>
+      </section>
+      <section id="quiz" hidden aria-labelledby="question-title">
+        <div class="progress-top"><span id="question-count"></span><span id="answered-count"></span></div><progress id="progress" value="0" max="10" aria-label="Рассмотренные ситуации"></progress>
+        <div class="question-card"><div class="question-layout"><div><p class="eyebrow" id="question-tag"></p><h2 id="question-title" tabindex="-1"></h2><p class="scenario" id="scenario"></p></div><fieldset><legend id="question-prompt">Какая позиция вам ближе?</legend><div class="options" id="options"></div><div class="extra-options" id="extra-options"></div></fieldset></div><div class="navigation"><button type="button" class="button secondary" id="back">← Назад</button><p class="selection-hint" id="selection-hint">Выберите ответ или отметьте пропуск.</p><button type="button" class="button" id="next" disabled>Далее →</button></div></div>
+      </section>
+      <section id="results" hidden aria-labelledby="result-title">
+        <p class="eyebrow">Ваша карта решений</p><h1 id="result-title" tabindex="-1"></h1><p class="lead" id="result-description"></p><p class="small" id="result-counts"></p>
+        <div class="result-grid">
+          <div class="panel"><h3>Четыре направления</h3><canvas id="chart" width="1600" height="1100" role="img" aria-label="График баллов по четырём направлениям, от большего к меньшему. Числовые значения приведены ниже."></canvas><ul class="score-list" id="scores"></ul><div class="exports"><button type="button" class="button" id="export-png">Скачать график PNG ↓</button></div><p class="small" id="export-png-status" role="status" aria-live="polite"></p></div>
+          <div class="panel"><h3>Сохраните ответы</h3><p class="small">CSV и XLSX — все ответы, пропуски, итоговый профиль и ключ категорий.</p><div class="exports"><button type="button" class="button secondary" id="export-xlsx">Excel XLSX ↓</button><button type="button" class="button secondary" id="export-csv">Таблица CSV ↓</button></div><p class="small" id="export-status" role="status" aria-live="polite"></p></div>
+        </div>
+        <div class="notice"><p><strong>Как читать результат.</strong> Один содержательный ответ даёт один балл соответствующему направлению. Это относительные предпочтения в предложенных историях, а не вероятность принадлежности к типу и не доля вашей личности. Пропуски и затруднения не дают баллов.</p><p>Равенство максимальных баллов означает смешанный профиль. Небольшая разница не доказывает выраженного преобладания: научно обоснованный порог пока не установлен. Предпочтение человеческого творчества само по себе не означает общего технопессимизма.</p></div>
+        <details><summary>Все ваши ответы</summary><div id="review"></div></details><details><summary>О категориях и методике</summary><div id="methodology"></div><p class="small">Категории — теоретические ориентиры. Для научного использования нужны когнитивные интервью, пилотирование и проверка структуры результатов. Вопросы показаны в порядке 1–10; порядок четырёх содержательных вариантов случайный. Выгрузка сохраняет исходные коды и порядок показа.</p></details><button type="button" class="button secondary" id="restart" style="margin-top:24px">Пройти ещё раз</button>
+      </section>
+      <noscript><div class="notice">Включите JavaScript для прохождения теста и сохранения файлов.</div></noscript>
+    </main>
+    <footer>
+      <div class="footer-meta"><span>Этический компас · Исследовательский прототип · Версия 1.1</span><span>Ваши ответы остаются у вас</span></div>
+      <address class="contacts" aria-label="Контакты Марии Казаковой">
+        <strong>Мария Казакова</strong>
+        <a href="mailto:marikasakowa@gmail.com">marikasakowa@gmail.com</a>
+        <span>Телеграм: <a href="https://t.me/oilunem" target="_blank" rel="noopener noreferrer">@oilunem</a></span>
+        <span>Телеграм-канал: <a href="https://t.me/undine_su_menulio" target="_blank" rel="noopener noreferrer">@undine_su_menulio</a></span>
+      </address>
+    </footer>
+  </div>
+  <script>
+    'use strict';
+    const VERSION = '1.1';
+    const TYPES = {
+      optimism:{label:'Технооптимизм',group:'Технооптимисты',description:'Видят в ИИ преимущественно возможности и поддерживают применение при понятных ограничениях и ответственности.'},
+      skepticism:{label:'Техноскептицизм',group:'Техноскептики',description:'Воздерживаются от доверия без проверки и готовы менять позицию в зависимости от доказательств.'},
+      pessimism:{label:'Технопессимизм',group:'Технопессимисты',description:'Обращают внимание на долгосрочные общественные потери и ценность человеческого участия.'},
+      opportunism:{label:'Технооппортунизм',group:'Технооппортунисты',description:'Оценивают применение прежде всего по собственной ситуативной выгоде: удобству, затратам и преимуществам. Это не обязательно предполагает обман.'}
+    };
+    const QUESTIONS = [
+      {id:1,tag:'Визуальное искусство',title:'Сериал без съёмочной площадки',text:'На стриминге вышел сериал, в котором изображения, голоса и музыка созданы с помощью ИИ по замыслу режиссёра. Использование ИИ обозначено, права на исходные материалы урегулированы. Трейлер вас заинтересовал.',answers:[
+        ['optimism','Мне интересно такое кино: ИИ расширяет художественные возможности авторов.'],
+        ['skepticism','Я сначала посмотрю фрагмент: художественные достоинства нужно оценивать независимо от способа создания.'],
+        ['pessimism','Я предпочту сериал с работой актёров, художников и музыкантов: их участие — важная часть ценности кино.'],
+        ['opportunism','Посмотрю, если это окажется самым увлекательным вариантом на вечер; способ производства для моего выбора второстепенен.']]},
+      {id:2,tag:'Образ себя',title:'Лицо для ленты',text:'Соцсеть предлагает ИИ-фильтр: он делает лицо симметричнее, а кожу — ровнее. Обработка незаметна: фотография выглядит так, будто вы действительно так выглядите. Вы выбираете фото для личной страницы.',answers:[
+        ['skepticism','Сначала хотелось бы понять, как такие фильтры влияют на восприятие себя и других.'],
+        ['opportunism','Если с этим фото я буду чувствовать себя увереннее и получать больше откликов, воспользуюсь.'],
+        ['optimism','Это допустимый инструмент самовыражения, особенно если можно отметить обработку.'],
+        ['pessimism','Я предпочту фото без него: массовая «идеальная внешность» делает нормальную внешность менее приемлемой.']]},
+      {id:3,tag:'Образование',title:'Репетитор в три часа ночи',text:'Университет бесплатно предлагает ИИ-репетитора. Он объясняет материал и иногда ошибается; преподаватель остаётся доступен на консультациях. Через неделю экзамен.',answers:[
+        ['pessimism','Даже при улучшении качества я бы предпочёл развитие живых консультаций: обучение рискует стать менее человеческим.'],
+        ['optimism','Это полезное расширение доступа к помощи, если понятно, где заканчиваются возможности системы.'],
+        ['opportunism','Буду использовать, если с ним смогу быстрее подготовиться именно к своему экзамену.'],
+        ['skepticism','Сначала проверю объяснения на знакомых задачах и по учебнику, а затем решу, насколько ему доверять.']]},
+      {id:4,tag:'Отношения',title:'Письмо о расставании',text:'Вы решили закончить отношения, но не можете подобрать слова. ИИ предлагает бережное и точное сообщение, которое выражает ваши чувства.',prompt:'Как поступите?',answers:[
+        ['optimism','Воспользуюсь: ИИ помогает сказать то, что человеку трудно сформулировать.'],
+        ['skepticism','Возьму текст за основу, но внимательно проверю каждую фразу.'],
+        ['pessimism','Напишу самостоятельно, пусть менее удачно: здесь важно говорить от сердца.'],
+        ['opportunism','Выберу вариант, который позволит мне быстрее завершить тяжёлый разговор.']]},
+      {id:5,tag:'Практические навыки',title:'Портфолио: ваши проекты, оформление — ИИ',text:'Вы подаёте заявку на стажировку в свою профессиональную область. Нужно представить проекты в виде презентации; дизайн отдельно не оценивается. Работодатель разрешает ИИ-оформление, если содержание достоверно. Все проекты вы выполнили сами.',answers:[
+        ['optimism','Это полезный инструмент: он позволяет представить свои достижения людям без навыков дизайна.'],
+        ['opportunism','Воспользуюсь, если это сэкономит мне время и повысит шансы получить стажировку.'],
+        ['pessimism','Предпочту оформить самостоятельно: передавая такие задачи ИИ, мы постепенно утрачиваем практические навыки.'],
+        ['skepticism','Сначала сравню несколько слайдов с исходными материалами: важно проверить, не искажает ли оформление смысл проектов.']]},
+      {id:6,tag:'Доверие к информации',title:'Цифровой свидетель',text:'В студенческом чате появляется видео, где декан якобы оскорбляет студентов. Автор публикации неизвестен. Вы знаете, что такое видео можно сгенерировать, но подтверждений подделки нет.',answers:[
+        ['skepticism','Пока не появятся проверяемые источники, я не стану делать вывод ни о декане, ни о подделке.'],
+        ['pessimism','Эта ситуация показывает, что генерация видео разрушает доверие к свидетельствам; я поддержал бы существенное ограничение её доступности.'],
+        ['opportunism','Я прежде всего решу, насколько участие в обсуждении затрагивает мои интересы и репутацию.'],
+        ['optimism','Поддержу проверку ролика и развитие инструментов подтверждения подлинности: риск подделок не отменяет пользы генерации видео.']]},
+      {id:7,tag:'Работа и алгоритмы',title:'Сначала понравиться алгоритму',text:'Вы откликаетесь на вакансию. Компания использует систему обработки заявок — ATS с ИИ-модулем: она оценивает соответствие резюме вакансии. Резюме ниже установленного порога не попадают к рекрутеру. Вы подходите по требованиям, но не знаете, как система оценит ваш опыт.',answers:[
+        ['pessimism','Я предпочту отбор людьми: даже после технических улучшений такие системы усиливают зависимость соискателей от непрозрачных правил.'],
+        ['optimism','Я поддерживаю такой инструмент: он может ускорить рассмотрение заявок, если предусмотрена возможность пересмотра отказа человеком.'],
+        ['skepticism','До оценки системы мне нужны независимые данные: как часто она отсеивает подходящих кандидатов и для каких групп ошибается чаще.'],
+        ['opportunism','Я прежде всего выясню, как адаптировать своё резюме под фильтр, чтобы повысить шансы на собеседование.']]},
+      {id:8,tag:'Творчество и ресурсы',title:'Художник или подписка',text:'Ваш студенческий клуб делает афишу. За одинаковую сумму можно заказать её начинающему художнику или оплатить ИИ-сервис, который позволит выпускать афиши весь год.',prompt:'Что выберете?',answers:[
+        ['optimism','ИИ-сервис: он даст клубу больше возможностей воплощать идеи.'],
+        ['pessimism','Художника: мне важно сохранять человеческое участие в творческой работе.'],
+        ['opportunism','Тот вариант, при котором лично мне придётся меньше заниматься афишами.'],
+        ['skepticism','Сначала сравню качество вариантов и условия использования изображений.']]},
+      {id:9,tag:'Эмоциональная поддержка',title:'Собеседник в три часа ночи',text:'Ночью вам тревожно, друзья спят. Университет предлагает ИИ-собеседника, прямо предупреждая, что это не психолог.',prompt:'Как поступите?',answers:[
+        ['opportunism','Попробую, если это быстрее и удобнее других способов успокоиться.'],
+        ['skepticism','Сначала посмотрю, как защищена переписка и на какие запросы рассчитан сервис.'],
+        ['pessimism','Предпочту дождаться разговора с человеком: человеческий контакт здесь принципиален.'],
+        ['optimism','Поддержу такой сервис и попробую: ИИ делает поддержку доступнее для студентов.']]},
+      {id:10,tag:'Знания и сотрудничество',title:'Ваш конспект стал сервисом',text:'Вы собрали собственный конспект курса. ИИ-сервис предлагает превратить его в помощника, который будет отвечать однокурсникам на вопросы. Участие добровольное.',prompt:'Что решите?',answers:[
+        ['pessimism','Оставлю конспект обычным текстом: предпочитаю, чтобы объяснение материала оставалось человеческой задачей.'],
+        ['optimism','Соглашусь: так новые технологии помогут большему числу студентов разобраться в курсе.'],
+        ['opportunism','Соглашусь, если получу полезную для себя компенсацию — например, бесплатную подписку.'],
+        ['skepticism','Сначала проверю точность ответов помощника на нескольких темах курса.']]}
+    ];
+    const $ = id => document.getElementById(id);
+    let order = [], optionOrder = {}, responses = {}, position = 0, startedAt, completedAt;
+    function shuffle(items) { const copy = [...items]; for (let i=copy.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [copy[i],copy[j]]=[copy[j],copy[i]]; } return copy; }
+    function showScreen(id) { ['intro','quiz','results'].forEach(name => $(name).hidden = name !== id); document.body.classList.toggle('testing',id === 'quiz'); window.scrollTo(0,0); }
+    function start() {
+      if(startedAt) { if(completedAt) { showScreen('results'); $('result-title').focus({preventScroll:true}); } else { showScreen('quiz'); renderQuestion(); } return; }
+      order=[...QUESTIONS]; responses={}; optionOrder={}; position=0; startedAt=new Date(); completedAt=null; QUESTIONS.forEach(q => optionOrder[q.id]=shuffle([0,1,2,3])); showScreen('quiz'); renderQuestion();
+    }
+    function makeOption(value,text,target) {
+      const label=document.createElement('label'); label.className='option';
+      const input=document.createElement('input'); input.type='radio'; input.name='answer'; input.value=value; input.checked=responses[order[position].id] === value;
+      const content=document.createElement('span'); content.className='option-content'; const dot=document.createElement('span'); dot.className='dot'; dot.setAttribute('aria-hidden','true'); const caption=document.createElement('span'); caption.textContent=text; content.append(dot,caption); label.append(input,content); target.append(label);
+      input.addEventListener('change',() => { responses[order[position].id]=value; updateNavigation(); });
+    }
+    function updateNavigation() { const selected=responses[order[position].id] !== undefined; $('next').disabled=!selected; $('selection-hint').textContent=selected ? 'Можно вернуться и изменить ответ.' : 'Выберите ответ или отметьте пропуск.'; $('answered-count').textContent=`Рассмотрено: ${Object.keys(responses).length} из 10`; $('progress').value=Object.keys(responses).length; }
+    function renderQuestion() {
+      const q=order[position]; $('question-count').textContent=`Ситуация ${position+1} / 10`; $('question-tag').textContent=q.tag; $('question-title').textContent=`${q.id}. ${q.title}`; $('scenario').textContent=q.text; $('question-prompt').textContent=q.prompt || 'Какая позиция вам ближе?';
+      $('options').replaceChildren(); $('extra-options').replaceChildren(); optionOrder[q.id].forEach(i => makeOption(String(i),q.answers[i][1],$('options'))); makeOption('unsure','Затрудняюсь выбрать',$('extra-options')); makeOption('skip','Пропустить вопрос',$('extra-options'));
+      $('back').disabled=position===0; $('next').textContent=position===9 ? 'Результат →' : 'Далее →'; updateNavigation(); $('question-title').focus({preventScroll:true}); window.scrollTo(0,0);
+    }
+    function calculate() {
+      const scores=Object.fromEntries(Object.keys(TYPES).map(key => [key,0])); let answered=0,unsure=0,skipped=0;
+      QUESTIONS.forEach(q => { const v=responses[q.id]; if(v==='unsure') unsure++; else if(v==='skip' || v===undefined) skipped++; else { scores[q.answers[Number(v)][0]]++; answered++; } });
+      const max=Math.max(...Object.values(scores)); return {scores,answered,unsure,skipped,leaders:max ? Object.keys(scores).filter(key => scores[key]===max) : []};
+    }
+    function profileText(stats) {
+      if(!stats.answered) return {title:'Пока без определённого направления',description:'По пропускам и затруднениям нельзя определить вашу позицию по отношению к ИИ.'};
+      if(stats.leaders.length>1) return {title:'У вас смешанный профиль',description:`Одинаково часто вам были близки несколько позиций: ${stats.leaders.map(key => TYPES[key].label.toLowerCase()).join(', ')}.`};
+      const key=stats.leaders[0]; return {title:`Чаще — ${TYPES[key].label.toLowerCase()}`,description:`В этих ситуациях вы чаще выбирали ответы, соответствующие категории «${TYPES[key].group}». Это предварительное описание решений, а не постоянная характеристика личности.`};
+    }
+    function rankedScores(stats) { return Object.entries(TYPES).sort(([a],[b]) => stats.scores[b]-stats.scores[a]); }
+    function selectedText(q) { const v=responses[q.id]; return v==='unsure' ? 'Затрудняюсь выбрать' : v==='skip' || v===undefined ? 'Вопрос пропущен' : q.answers[Number(v)][1]; }
+    function finish() {
+      completedAt=new Date(); const stats=calculate(),profile=profileText(stats); $('result-title').textContent=profile.title; $('result-description').textContent=profile.description; $('result-counts').textContent=`Содержательных ответов: ${stats.answered} из 10 · Затруднений: ${stats.unsure} · Пропусков: ${stats.skipped}`;
+      $('scores').replaceChildren(); rankedScores(stats).forEach(([key,type]) => { const li=document.createElement('li'),name=document.createElement('span'),count=document.createElement('strong'); name.textContent=type.label; count.textContent=`${stats.scores[key]} из ${stats.answered} ответов`; li.append(name,count); $('scores').append(li); });
+      $('review').replaceChildren(); order.forEach(q => { const item=document.createElement('div'); item.className='review-item'; const heading=document.createElement('strong'); heading.textContent=`${q.id}. ${q.title}`; const p=document.createElement('p'); p.className='small'; p.textContent=selectedText(q); item.append(heading,p); $('review').append(item); });
+      $('methodology').replaceChildren(); Object.values(TYPES).forEach(type => { const p=document.createElement('p'); p.className='small'; const strong=document.createElement('strong'); strong.textContent=`${type.group}. `; p.append(strong,document.createTextNode(type.description)); $('methodology').append(p); });
+      $('export-status').textContent=''; $('export-png-status').textContent=''; showScreen('results'); $('result-title').focus({preventScroll:true}); drawChart(stats); refreshChartFont();
+    }
+    async function refreshChartFont() {
+      try {
+        const sample='АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ абвгдеёжзийклмнопрстуфхцчшщъыьэюя 0123456789';
+        await Promise.all([400,600,700].map(weight => document.fonts.load(`${weight} 32px Comfortaa`,sample)));
+      } catch {}
+      if(!$('results').hidden) drawChart(calculate());
+    }
+    function drawChart(stats) {
+      const canvas=$('chart'),ctx=canvas.getContext('2d'); const width=canvas.width;
+      const palette=getComputedStyle(document.documentElement),color=name => palette.getPropertyValue(name).trim();
+      ctx.fillStyle=color('--milk'); ctx.fillRect(0,0,width,canvas.height); ctx.fillStyle=color('--teal-text'); ctx.font='700 23px Comfortaa, sans-serif'; ctx.fillText('ЭТИЧЕСКИЙ КОМПАС',80,85);
+      ctx.fillStyle='#193e40'; ctx.font='700 52px Comfortaa, sans-serif'; ctx.fillText('Ваша карта решений',80,170);
+      ctx.fillStyle='#59716f'; ctx.font='400 25px Comfortaa, sans-serif'; ctx.fillText(`Содержательных ответов: ${stats.answered} из 10`,80,225);
+      const start=450,end=1380,top=330,bottom=790,scale=end-start;
+      ctx.font='400 22px Comfortaa, sans-serif'; ctx.strokeStyle=color('--line'); ctx.lineWidth=2;
+      for(let tick=0;tick<=10;tick+=2) { const x=start+tick/10*scale; ctx.beginPath(); ctx.moveTo(x,top-30); ctx.lineTo(x,bottom); ctx.stroke(); ctx.fillStyle='#59716f'; ctx.textAlign='center'; ctx.fillText(String(tick),x,bottom+42); }
+      ctx.textAlign='left'; const colors=Array(4).fill(color('--teal'));
+      rankedScores(stats).forEach(([key,type],i) => { const y=top+i*115; ctx.fillStyle='#193e40'; ctx.font='600 26px Comfortaa, sans-serif'; ctx.fillText(type.label,80,y+34); ctx.fillStyle=color('--wash'); ctx.fillRect(start,y,scale,52); ctx.fillStyle=colors[i]; ctx.fillRect(start,y,stats.scores[key]/10*scale,52); ctx.font='700 29px Comfortaa, sans-serif'; ctx.fillStyle='#193e40'; ctx.fillText(String(stats.scores[key]),end+35,y+36); });
+      ctx.fillStyle='#59716f'; ctx.font='400 23px Comfortaa, sans-serif'; ctx.fillText('Баллы · один содержательный ответ = один балл',80,905); ctx.fillText(`Затруднений: ${stats.unsure}   ·   Пропусков: ${stats.skipped}`,80,954); ctx.font='400 21px Comfortaa, sans-serif'; ctx.fillText('Пилотный опрос. Не диагностика личности и не вероятность принадлежности к типу.',80,1020);
+    }
+    function exportRows() {
+      const stats=calculate(); const rows=[['Этический компас — ответы и результаты'],['Версия инструмента',VERSION],['Начало (UTC)',startedAt.toISOString()],['Завершение (UTC)',completedAt.toISOString()],['Методика','Пилотный виньеточный опрос; не валидированная диагностика'],[],['Порядок показа','Исходный номер','Название','Ситуация и вопрос','Статус ответа','Исходный код варианта','Позиция варианта на экране','Выбранный ответ','Категория','Порядок исходных вариантов на экране']];
+      order.forEach((q,i) => { const v=responses[q.id],valid=v!==undefined && v!=='skip' && v!=='unsure'; rows.push([i+1,q.id,q.title,q.text+' '+(q.prompt || 'Какая позиция вам ближе?'),valid ? 'Ответ' : v==='unsure' ? 'Затрудняюсь выбрать' : 'Пропуск',valid ? 'АБВГ'[Number(v)] : '',valid ? optionOrder[q.id].indexOf(Number(v))+1 : '',selectedText(q),valid ? TYPES[q.answers[Number(v)][0]].label : '',optionOrder[q.id].map(n => 'АБВГ'[n]).join(' → ')]); });
+      rows.push([],['ИТОГИ'],['Категория','Баллы','Содержательных ответов']); Object.entries(TYPES).forEach(([key,type]) => rows.push([type.label,stats.scores[key],stats.answered])); rows.push(['Затруднений',stats.unsure],['Пропусков',stats.skipped],['Предварительный результат',profileText(stats).title],['Интерпретация','Баллы — относительные предпочтения, не вероятности и не характеристики личности.'],[],['КЛЮЧ И ПОЛНЫЕ ВАРИАНТЫ'],['Исходный номер','Исходный код варианта','Текст варианта','Категория']); QUESTIONS.forEach(q => q.answers.forEach(([key,text],i) => rows.push([q.id,'АБВГ'[i],text,TYPES[key].label]))); return rows;
+    }
+    function csvText(rows) { return '\uFEFF'+rows.map(row => row.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n'); }
+    function xml(v) { return String(v).replace(/[<>&"']/g,c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c])); }
+    function columnName(i) { let name=''; for(i++;i>0;i=Math.floor((i-1)/26)) name=String.fromCharCode(65+(i-1)%26)+name; return name; }
+    function worksheetXml(rows) { return '<?xml version="1.0" encoding="UTF-8"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>'+rows.map((row,r) => `<row r="${r+1}">`+row.map((v,c) => { const ref=columnName(c)+(r+1); return typeof v==='number' ? `<c r="${ref}"><v>${v}</v></c>` : `<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${xml(v)}</t></is></c>`; }).join('')+'</row>').join('')+'</sheetData></worksheet>'; }
+    // Minimal XLSX with inline strings in a standards-based, uncompressed ZIP.
+    const CRC_TABLE=Array.from({length:256},(_,n) => { for(let i=0;i<8;i++) n=n&1 ? 0xedb88320^(n>>>1) : n>>>1; return n>>>0; });
+    function crc32(bytes) { let crc=0xffffffff; for(const byte of bytes) crc=CRC_TABLE[(crc^byte)&255]^(crc>>>8); return (crc^0xffffffff)>>>0; }
+    function zipStored(files) {
+      const encoder=new TextEncoder(),localParts=[],centralParts=[]; let offset=0;
+      function header(size) { const bytes=new Uint8Array(size); return [bytes,new DataView(bytes.buffer)]; }
+      for(const [path,text] of Object.entries(files)) {
+        const name=encoder.encode(path),data=encoder.encode(text),crc=crc32(data);
+        const [local,l]=header(30); l.setUint32(0,0x04034b50,true); l.setUint16(4,20,true); l.setUint16(6,0x800,true); l.setUint16(12,33,true); l.setUint32(14,crc,true); l.setUint32(18,data.length,true); l.setUint32(22,data.length,true); l.setUint16(26,name.length,true); localParts.push(local,name,data);
+        const [central,c]=header(46); c.setUint32(0,0x02014b50,true); c.setUint16(4,20,true); c.setUint16(6,20,true); c.setUint16(8,0x800,true); c.setUint16(14,33,true); c.setUint32(16,crc,true); c.setUint32(20,data.length,true); c.setUint32(24,data.length,true); c.setUint16(28,name.length,true); c.setUint32(42,offset,true); centralParts.push(central,name); offset+=local.length+name.length+data.length;
+      }
+      const size=centralParts.reduce((sum,part) => sum+part.length,0),[end,e]=header(22); e.setUint32(0,0x06054b50,true); e.setUint16(8,Object.keys(files).length,true); e.setUint16(10,Object.keys(files).length,true); e.setUint32(12,size,true); e.setUint32(16,offset,true); return new Blob([...localParts,...centralParts,end],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    }
+    function xlsxBlob(rows) { return zipStored({
+      '[Content_Types].xml':'<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>',
+      '_rels/.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>',
+      'xl/workbook.xml':'<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Ответы и результаты" sheetId="1" r:id="rId1"/></sheets></workbook>',
+      'xl/_rels/workbook.xml.rels':'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>',
+      'xl/worksheets/sheet1.xml':worksheetXml(rows)
+    }); }
+    function saveBlob(blob,format) { if(!blob) throw new Error('Empty export'); const url=URL.createObjectURL(blob),link=document.createElement('a'); link.href=url; link.download=`ethical-compass-v${VERSION}-${completedAt.toISOString().replace(/[:.]/g,'-')}.${format}`; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url),30000); $(format==='png' ? 'export-png-status' : 'export-status').textContent=`Файл ${format.toUpperCase()} подготовлен. Проверьте загрузки браузера.`; }
+    async function download(format) {
+      const button=$('export-'+format); button.disabled=true;
+      try { if(format==='png') { await refreshChartFont(); const blob=await new Promise(resolve => $('chart').toBlob(resolve,'image/png')); saveBlob(blob,format); } else { const rows=exportRows(); saveBlob(format==='xlsx' ? xlsxBlob(rows) : new Blob([csvText(rows)],{type:'text/csv;charset=utf-8'}),format); } }
+      catch(error) { $(format==='png' ? 'export-png-status' : 'export-status').textContent='Не удалось создать файл. Попробуйте повторить загрузку.'; console.error(error); } finally { button.disabled=false; }
+    }
+    $('start').addEventListener('click',start); $('back').addEventListener('click',() => { if(position>0) { position--; renderQuestion(); } }); $('next').addEventListener('click',() => { if(responses[order[position].id]===undefined) return; if(position<9) { position++; renderQuestion(); } else finish(); });
+    $('home').addEventListener('click',event => { event.preventDefault(); showScreen('intro'); $('start').textContent=completedAt ? 'Посмотреть результат →' : startedAt ? 'Продолжить тест →' : 'Начать исследование ↗'; $('intro-title').focus({preventScroll:true}); });
+    $('restart').addEventListener('click',() => { if(confirm('Начать заново? Сохраните текущие ответы и график, если они нужны: при новом прохождении они будут удалены из вкладки.')) { startedAt=null; start(); } }); ['png','csv','xlsx'].forEach(format => $('export-'+format).addEventListener('click',() => download(format)));
+  </script>
+</body>
+</html>
