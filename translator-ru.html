@@ -235,26 +235,43 @@
             .gallery-grid.gallery-grid--four { grid-template-columns: 1fr; }
         }
 
-/* ── Галерея сертификатов: горизонтальные кадры ── */
+/* ── Галерея сертификатов: 7 в один ряд на десктопе ── */
 .gallery-grid--certificates {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.8rem;
     margin-top: 1.2rem;
+    align-items: start;
 }
+
 .gallery-grid--certificates .gallery-item {
     max-height: none;
+    align-self: start;
 }
+
 .gallery-grid--certificates .gallery-item img {
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
+    aspect-ratio: 3 / 4;
+    object-fit: contain;
+    background: #f7fbfa;
     display: block;
+    border-radius: var(--radius-sm);
 }
 
+/* Планшет: 4 в ряд */
+@media (max-width: 992px) {
+    .gallery-grid--certificates {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.7rem;
+    }
+}
+
+/* Телефон: 2 в ряд */
 @media (max-width: 600px) {
     .gallery-grid--certificates {
         grid-template-columns: repeat(2, 1fr);
+        gap: 0.6rem;
     }
 }
         
