@@ -235,6 +235,29 @@
             .gallery-grid.gallery-grid--four { grid-template-columns: 1fr; }
         }
 
+/* ── Галерея сертификатов: горизонтальные кадры ── */
+.gallery-grid--certificates {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.2rem;
+}
+.gallery-grid--certificates .gallery-item {
+    max-height: none;
+}
+.gallery-grid--certificates .gallery-item img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .gallery-grid--certificates {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+        
         /* ── Modal ── */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -601,11 +624,61 @@
 
         <!-- ===== ANCHOR MENU ===== -->
         <nav class="anchor-menu" aria-label="Навигация по странице">
+            <a href="#certificates">Сертификаты</a>
             <a href="#greek">Греческий</a>
             <a href="#english">Английский</a>
             <a href="#chinese">Китайский</a>
         </nav>
+        
+        <!-- ============================================================ -->
+        <!--  SECTION: Сертификаты                                          -->
+        <!-- ============================================================ -->
+        <section id="certificates" class="section-card">
+            <h2>Сертификаты</h2>
 
+            <h3>Уровень владения иностранными языками</h3>
+            <ul class="list-bullet">
+                <li><strong>Английский</strong> — C1/C2</li>
+                <li><strong>Греческий</strong> — C1 (=Γ1, сертификат ещё не приехал из Греции)</li>
+                <li><strong>Немецкий</strong> — C1</li>
+                <li><strong>Китайский</strong> — HSK3 (=B1)</li>
+                <li><strong>Турецкий</strong> — B1 (сертификат ещё не приехал из Турции)</li>
+            </ul>
+
+            <p class="text-muted text-small">Кликните на сертификат, чтобы рассмотреть его крупнее. У немецкого и китайского языков — по два документа.</p>
+
+            <div class="gallery-grid gallery-grid--certificates">
+                <!-- Греческий -->
+                <div class="gallery-item">
+                    <img src="https://sun9-48.vkuserphoto.ru/s/v1/ig2/AtqD-gf1t-JpcdhZfNSurgdUOOqmsN4RUPpObyS2vOAnEfad4BVBbcc-5zDU2otRpSKV1oo9YLPFsPOH6r5nuyxx.jpg?quality=95&as=32x44,48x66,72x99,108x149,160x220,240x330,360x495,480x660,540x743,640x880,720x990,1080x1486,1280x1761,1440x1981,1861x2560&from=bu&u=PFw7fJN-3NXoHWJT15WhLQOUcgC0UXxOtNgmD_qtnYA&cs=1280x0" alt="Сертификат по греческому языку" loading="lazy" />
+                </div>
+                <!-- Немецкий — 1 -->
+                <div class="gallery-item">
+                    <img src="https://sun9-4.vkuserphoto.ru/s/v1/ig2/ozLWsUYBywpRIrB6nAigkmwbb_m4XT4DrI6dTVP_ljoPOfT78ATvc18DOEE-M-du2F0cUxwDtAVQO4CP6RxX_P9U.jpg?quality=95&as=32x44,48x66,72x99,108x149,160x220,240x330,360x495,480x660,540x743,640x880,720x990,1080x1486,1280x1761,1440x1981,1861x2560&from=bu&cs=1280x0" alt="Сертификат по немецкому языку — 1" loading="lazy" />
+                </div>
+                <!-- Немецкий — 2 -->
+                <div class="gallery-item">
+                    <img src="https://sun9-71.vkuserphoto.ru/s/v1/ig2/cQ9NdjXv8pgvDGiPoQgyMSfpKSUHQJwSGj1ZAf8sejHcMoqHIRHoAnO44oCcL1C0dp31kMnEowA7-4YULeOzxQbM.jpg?quality=95&as=32x44,48x66,72x99,108x149,160x220,240x330,360x495,480x660,540x743,640x880,720x990,1080x1486,1280x1761,1440x1981,1861x2560&from=bu&cs=1280x0" alt="Сертификат по немецкому языку — 2" loading="lazy" />
+                </div>
+                <!-- Английский -->
+                <div class="gallery-item">
+                    <img src="https://sun9-37.vkuserphoto.ru/s/v1/ig2/G8VDxsrxHSRzDHcBcVZJ--8L0ptWCgE_HkSzdrmBTDkid53dvClt3ZYORbSdOfiAn0--FNOvhbjsCN8KKIFShrqL.jpg?quality=95&as=32x34,48x51,72x76,108x114,160x169,240x253,360x379,480x506,540x569,640x674,720x758,768x809&from=bu&cs=768x0" alt="Сертификат по английскому языку" loading="lazy" />
+                </div>
+                <!-- Китайский — 1 -->
+                <div class="gallery-item">
+                    <img src="https://sun9-51.vkuserphoto.ru/s/v1/ig2/eoHSmN3KynWRORqQySzOG7jXM_kX6fjxutads2ZvPAdjpNfaG_n1qsrpBk5lZgqJZDqrApjZTavgmj_dFK28o8BJ.jpg?quality=95&as=32x44,48x66,72x99,108x149,160x220,240x330,360x495,480x660,540x743,640x880,720x990,1080x1486,1280x1761,1440x1981,1861x2560&from=bu&cs=1280x0" alt="Сертификат по китайскому языку — 1" loading="lazy" />
+                </div>
+                <!-- Китайский — 2 -->
+                <div class="gallery-item">
+                    <img src="https://sun9-53.vkuserphoto.ru/s/v1/ig2/sQZwwQvXb7pLu0V8MB3L8_VfVKXRFKjElbptSfIcOMNOXbaUjpgXgweThbK-q4WM9JsSupj89oo9bC9o34yuffNR.jpg?quality=95&as=32x44,48x66,72x99,108x149,160x220,240x330,360x495,480x660,540x743,640x880,720x990,1080x1486,1280x1761,1440x1981,1861x2560&from=bu&cs=1280x0" alt="Сертификат по китайскому языку — 2" loading="lazy" />
+                </div>
+                <!-- Турецкий -->
+                <div class="gallery-item">
+                    <img src="https://sun9-54.vkuserphoto.ru/s/v1/ig2/mClTQ7BBDEcyfOV9MALwPrxQpIoj_sY244uc1DOc-zpd_v0g9N2R5XJm8iEOoterqozazlmoHZrtJh4ix6LIrsqT.jpg?quality=95&as=32x44,48x66,72x99,108x149,160x220,240x330,360x495,480x660,540x743,640x880,720x990,1080x1486,1280x1761,1440x1981,1861x2560&from=bu&cs=1280x0" alt="Сертификат по турецкому языку" loading="lazy" />
+                </div>
+            </div>
+        </section>
+        
         <!-- ============================================================ -->
         <!--  SECTION: Греческий                                            -->
         <!-- ============================================================ -->
